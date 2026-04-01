@@ -1,0 +1,13 @@
+services:
+  echo-media:
+    build: .
+    container_name: echo-media
+    restart: unless-stopped
+    volumes:
+      - echo_media_data:/media:ro
+    ports:
+      - "127.0.0.1:18082:80"
+
+volumes:
+  echo_media_data:
+    external: true
