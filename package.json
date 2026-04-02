@@ -1,0 +1,14 @@
+{
+  "name": "echomedia",
+  "version": "1.0.0",
+  "description": "Echo media file delivery service",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  }
+}

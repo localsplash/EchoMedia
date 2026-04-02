@@ -1,15 +1,16 @@
-FROM nginx:alpine
+FROM node:22-alpine
+WORKDIR /app
 
-# Remove default config
-RUN rm /etc/nginx/conf.d/default.conf
+COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Copy our config
-COPY nginx.conf /etc/nginx/conf.d/echo-media.conf
+COPY src/ src/
 
-# Create media directory
-RUN mkdir -p /media && chown -R nginx:nginx /media
-
-EXPOSE 80
+RUN mkdir -p /media && chown node:node /media
+USER node
+EXPOSE 8082
 
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/healthz || exit 1
+  CMD wget -qO- http://127.0.0.1:8082/healthz || exit 1
+
+CMD ["node", "src/server.js"]

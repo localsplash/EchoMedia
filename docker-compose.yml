@@ -1,13 +1,16 @@
+# Standalone dev — for full stack use EchoOrchestrator instead.
 services:
   echo-media:
     build: .
     container_name: echo-media
-    restart: unless-stopped
+    environment:
+      PORT: "8082"
+      MEDIA_ROOT: /media
+    ports:
+      - "127.0.0.1:18082:8082"
     volumes:
       - echo_media_data:/media:ro
-    ports:
-      - "127.0.0.1:18082:80"
+    restart: unless-stopped
 
 volumes:
   echo_media_data:
-    external: true
