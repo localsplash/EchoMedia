@@ -6,7 +6,7 @@ RUN npm ci --omit=dev
 
 COPY src/ src/
 
-RUN mkdir -p /media && chown node:node /media
+RUN mkdir -p /media /app && chown -R node:node /media /app
 USER node
 EXPOSE 8082
 
