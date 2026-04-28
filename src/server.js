@@ -24,7 +24,13 @@ app.get('/healthz', (_req, res) => {
 // Serve media files
 // Paths like: /7146403939/7146120126/51/<uid>/image000001.jpg
 app.get('/*', (req, res) => {
-  const filePath = path.join(MEDIA_ROOT, req.path);
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(req.path);
+  } catch {
+    return res.sendStatus(400);
+  }
+  const filePath = path.join(MEDIA_ROOT, decodedPath);
 
   // Prevent directory traversal
   if (!filePath.startsWith(MEDIA_ROOT)) {
