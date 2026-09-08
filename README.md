@@ -32,13 +32,25 @@ EchoWeb after deployment. Confirm that another tenant cannot retrieve the same
 path and that EchoMedia has no public upstream exposing raw files. This is live
 deployment acceptance, separate from the configuration decision.
 
-## Legacy settings retirement
+## Disposable Dev cleanup
 
-EchoMedia is not a consumer blocking removal of `echo_tbl_Settings`. Keep that
-table for the consumers and explicit rollback modes tracked in
-[EchoDatabase #8](https://github.com/localsplash/EchoDatabase/issues/8) until their
-migrations, deployment verification and rollback window are complete. No database
-migration belongs in this repository.
+The owner authorized deletion of obsolete configuration and local authentication/
+provenance data in the disposable Dev environment. The previous preservation and
+rollback-window plan is superseded; EchoMedia adds no dependency or waiting period
+to this cleanup.
+
+EchoWeb and EchoService now read only PlatformConfig. Deploy their matching
+revisions and apply EchoDatabase migration
+`013_retire_legacy_configuration_and_auth.sql`, which removes the obsolete SQL
+settings/auth/provenance tables. See
+[EchoDatabase #8](https://github.com/localsplash/EchoDatabase/issues/8) for the
+exact inventory and [EchoOrchestrator #11](https://github.com/localsplash/EchoOrchestrator/issues/11)
+for actual Dev deployment evidence. No database migration belongs in EchoMedia.
+Active messaging/media tables and the migration ledger remain in use.
+
+This remains an environment-only media service: no legacy SQL reader, no
+PlatformConfig token, and no configuration-data copy or rollback mechanism.
+The private media access checks above still apply after deployment.
 
 Asterisk/OfficePulse remain the source for PBX extensions, queues, memberships,
 trunks and live state. EchoMedia has no PBX provisioning or synchronization role.
