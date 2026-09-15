@@ -1,10 +1,17 @@
 FROM node:22-alpine
+ENV TZ=America/Los_Angeles
+RUN apk add --no-cache tzdata
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --omit=dev
 
 COPY src/ src/
+COPY scripts/write-build-info.mjs scripts/
+ARG BUILD_REVISION
+ARG SOURCE_DATE_EPOCH
+ARG BUILD_DIRTY
+RUN npm run build
 
 RUN mkdir -p /media /app && chown -R node:node /media /app
 USER node

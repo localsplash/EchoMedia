@@ -1,9 +1,15 @@
 # Standalone dev — for full stack use EchoOrchestrator instead.
 services:
   echo-media:
-    build: .
+    build:
+      context: .
+      args:
+        BUILD_REVISION: ${BUILD_REVISION:?Export Git HEAD before building}
+        SOURCE_DATE_EPOCH: ${SOURCE_DATE_EPOCH:?Export Git committer epoch before building}
+        BUILD_DIRTY: ${BUILD_DIRTY:?Export Git dirty state before building}
     container_name: echo-media
     environment:
+      TZ: ${TZ:-America/Los_Angeles}
       PORT: "8082"
       MEDIA_ROOT: /media
     ports:
