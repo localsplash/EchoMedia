@@ -5,7 +5,10 @@
   "main": "src/server.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "build": "node scripts/write-build-info.mjs src/build-info.json",
+    "test:version": "node --test scripts/check-build-info.mjs",
+    "test": "npm run test:version && node --test test/*.test.js"
   },
   "dependencies": {
     "express": "^4.19.2",

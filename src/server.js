@@ -1,3 +1,6 @@
+require('./timezone');
+const buildInfo = require('./buildInfo');
+
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
@@ -18,7 +21,7 @@ app.use((_req, res, next) => {
 
 // Health check
 app.get('/healthz', (_req, res) => {
-  res.json({ ok: true, service: 'EchoMedia' });
+  res.json({ ok: true, service: 'EchoMedia', ...buildInfo });
 });
 
 // Serve media files
