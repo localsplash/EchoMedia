@@ -20,8 +20,15 @@ acceptance checks. This resolves the incorrect SQL-reader premise of
 
 ## Deployment and access
 
-Use the canonical [EchoOrchestrator](https://github.com/localsplash/EchoOrchestrator)
-deployment. Keep EchoMedia private and use EchoWeb's authenticated media proxy
+An environment includes this repo's `compose.yaml` alongside EchoWeb and
+EchoService. Set `ECHO_NETWORK` to its existing private network and
+`ECHO_MEDIA_VOLUME` to the external volume written by EchoService. This file
+publishes no port and joins no public proxy network. It mounts media read-only.
+Set `ECHO_MEDIA_REVISION`, `ECHO_MEDIA_EPOCH`, and `ECHO_MEDIA_DIRTY` from this
+checkout when building alongside other repos; the unprefixed BUILD_* fallback
+is for a single-repository build. See `.env.example`.
+
+Keep EchoMedia private and use EchoWeb's authenticated media proxy
 (`MEDIA_INTERNAL_BASE_URL`) for tenant access. The standalone Compose file
 publishes its listener for local development; it is not a tenant authorization
 boundary. `MEDIA_ROOT` must refer to the same stored media files written by
@@ -44,8 +51,7 @@ revisions and apply EchoDatabase migration
 `013_retire_legacy_configuration_and_auth.sql`, which removes the obsolete SQL
 settings/auth/provenance tables. See
 [EchoDatabase #8](https://github.com/localsplash/EchoDatabase/issues/8) for the
-exact inventory and [EchoOrchestrator #11](https://github.com/localsplash/EchoOrchestrator/issues/11)
-for actual Dev deployment evidence. No database migration belongs in EchoMedia.
+exact inventory; record deployment evidence in the deployment PR or issue. No database migration belongs in EchoMedia.
 Active messaging/media tables and the migration ledger remain in use.
 
 This remains an environment-only media service: no legacy SQL reader, no
