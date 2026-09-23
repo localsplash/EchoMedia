@@ -1,4 +1,4 @@
-# Standalone dev — for full stack use EchoOrchestrator instead.
+# Standalone dev; environments include compose.yaml instead.
 services:
   echo-media:
     build:

@@ -1,0 +1,36 @@
+# Private media origin: no published port or public hostname.
+services:
+  echo-media:
+    build:
+      context: .
+      args:
+        BUILD_REVISION: ${ECHO_MEDIA_REVISION:-${BUILD_REVISION-}}
+        SOURCE_DATE_EPOCH: ${ECHO_MEDIA_EPOCH:-${SOURCE_DATE_EPOCH-0}}
+        BUILD_DIRTY: ${ECHO_MEDIA_DIRTY:-${BUILD_DIRTY-true}}
+      labels:
+        org.opencontainers.image.revision: ${ECHO_MEDIA_REVISION:-${BUILD_REVISION-}}
+        org.opencontainers.image.source: https://github.com/localsplash/EchoMedia
+    image: echo-media:${ECHO_MEDIA_TAG:-dev}
+    container_name: ${ECHO_MEDIA_CONTAINER_NAME:-echo-media}
+    environment:
+      TZ: ${TZ:-America/Los_Angeles}
+      PORT: "8082"
+      MEDIA_ROOT: /media
+    volumes:
+      - media-files:/media:ro
+    networks: [media-private]
+    logging:
+      driver: json-file
+      options:
+        max-size: ${LOG_MAX_SIZE:-10m}
+        max-file: ${LOG_MAX_FILE:-"3"}
+    restart: unless-stopped
+
+volumes:
+  media-files:
+    name: ${ECHO_MEDIA_VOLUME:?the shared media volume written by EchoService}
+    external: true
+networks:
+  media-private:
+    name: ${ECHO_NETWORK:?the private Echo network}
+    external: true
