@@ -47,10 +47,10 @@ rollback-window plan is superseded; EchoMedia adds no dependency or waiting peri
 to this cleanup.
 
 EchoWeb and EchoService now read only PlatformConfig. Deploy their matching
-revisions and apply EchoDatabase migration
+revisions and apply AidaPlatformDB/echo migration
 `013_retire_legacy_configuration_and_auth.sql`, which removes the obsolete SQL
 settings/auth/provenance tables. See
-[EchoDatabase #8](https://github.com/localsplash/EchoDatabase/issues/8) for the
+[AidaPlatformDB #8](https://github.com/localsplash/AidaPlatformDB/issues/8) for the
 exact inventory; record deployment evidence in the deployment PR or issue. No database migration belongs in EchoMedia.
 Active messaging/media tables and the migration ledger remain in use.
 
