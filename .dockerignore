@@ -2,3 +2,5 @@ node_modules
 .git
 .env
 *.md
+
+src/build-info.json
